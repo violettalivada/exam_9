@@ -1,0 +1,17 @@
+{% extends "partial/../base.html" %}
+
+{% block title %}Delete{% endblock %}
+
+{% block menu %}
+    <li class="nav-item my-2"><a class="nav-link" href="{% url 'webapp:image_view' image.pk %}">Назад</a></li>
+{% endblock %}
+
+
+{% block content %}
+    <h1 class="title mt-5">Вы уверены, что хотите удалить данную картинку: "{{ image }}"?</h1>
+    <form method="POST" action="{% url "webapp:image_delete" image.pk %}" class="text-center">
+        {% csrf_token %}
+        <p><input class="btn btn-primary" type="submit" value="Да"></p>
+        <p><a class="btn btn-primary" href="{% url "webapp:image_view" image.pk %}" role="button">Нет</a></p>
+    </form>
+{% endblock %}

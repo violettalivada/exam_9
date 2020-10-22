@@ -6,21 +6,19 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{% block title %}My Site{% endblock %}</title>
-
-    <!-- XDSoft DateTimePicker -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
-
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    {% block links %}{% endblock %}
+    {% block styles %}{% endblock %}
 </head>
 <body>
     <nav class="navbar">
         <div class="container">
             <ul class="menu">
-                <li><a href="{% url 'webapp:index' %}">Home</a></li>
+                <li><a href="{% url 'webapp:index' %}">на главную</a></li>
                 {% if request.user.is_authenticated %}
-                    <li><a href="{% url 'webapp:article_create' %}">Add Article</a></li>
+                    <li><a href="{% url 'webapp:image_create' %}">Добавить фотографию</a></li>
                     {% block menu %}{% endblock %}
                     <li><a href="{% url 'accounts:detail' request.user.pk %}">
                         Привет, {{ request.user.get_full_name|default:request.user.username }}
@@ -38,24 +36,11 @@
                     <li><a href="{% url 'accounts:password_reset_email' %}">Reset Password</a></li>
                 {% endif %}
             </ul>
-
-            {% block search %}
-                <div class="search-form">
-                    <form action="{% url 'webapp:index' %}" method="GET">
-                        {{ search_form.search }}
-                        <input type="submit" value="Найти">
-                    </form>
-                </div>
-            {% endblock %}
         </div>
     </nav>
     <div class="container">
         {% block content %}{% endblock %}
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
-    <script src="{% static "js/api_client.js" %}"></script>
-    {% block scripts %}{% endblock %}
 </body>
 </html>
