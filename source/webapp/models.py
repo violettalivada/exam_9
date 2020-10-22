@@ -15,3 +15,27 @@ class Image(models.Model):
     class Meta:
         verbose_name = 'Фотография'
         verbose_name_plural = 'Фотографии'
+
+
+class FavoriteImage(models.Model):
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,
+                             related_name='favorite_image', verbose_name='Пользователь')
+    image = models.ForeignKey('webapp.Image', on_delete=models.CASCADE,
+                              related_name='favorites', verbose_name='Фотография')
+
+    def __str__(self):
+        return f'{self.user.username} - {self.image.description}'
+
+    class Meta:
+        verbose_name = 'Избранное'
+
+
+class ImageComment(models.Model):
+    text = models.TextField(null=False, blank=False, max_length=400, verbose_name='Текст')
+    image = models.ForeignKey('webapp.Image', null=False, blank=False,
+                              on_delete=models.CASCADE, verbose_name='Фотография', related_name='comments')
+    author = models.CharField(null=False, blank=False, max_length=50, verbose_name='Автор')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
+
+    def __str__(self):
+        return self.text[:20]

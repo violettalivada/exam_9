@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -18,6 +19,22 @@ class ImageDetailView(DetailView):
     template_name = 'images/detail.html'
     pk_url_kwarg = 'pk'
     model = Image
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        comments = context['image'].comments.order_by('-created_at')
+        self.paginate_comments_to_context(comments, context)
+        context['user'] = self.request.user
+        return context
+
+    def paginate_comments_to_context(self, comments, context):
+        paginator = Paginator(comments, 10, 0)
+        page_number = self.request.GET.get('page', 1)
+        page = paginator.get_page(page_number)
+        context['paginator'] = paginator
+        context['page_obj'] = page
+        context['comments'] = page.object_list
+        context['is_paginated'] = page.has_other_pages()
 
 
 class ImageCreateView(CustomMixin, CreateView):
