@@ -1,6 +1,6 @@
 {% extends 'partial/../base.html' %}
 {% block content %}
-    <div class="card-deck">
+    <div class="card-deck mt-4">
         <div class="card">
             <img class="card-img-top" src="{{ image.image.url }}" alt="Card image cap">
             <div class="card-body">
@@ -31,14 +31,16 @@
     <h2>Комментарии:</h2>
     {% for comment in comments %}
         <div class="comment">
-            <p>{{ comment.author }} commented at {{ comment.created_at|date:'d.m.Y H:i:s' }}</p>
+            <p><b>{{ comment.author }}</b> </p>
+            <p>commented at {{ comment.created_at|date:'d.m.Y H:i:s' }}</p>
             <div class="pre">{{ comment.text }}</div>
-            <button id="{{ comment.id }}" onclick="deleteTasksLoadIndex(this.id)">Delete</button>
+            <hr/>
+            <button type="button" class="btn btn-primary" id="{{ comment.id }}" onclick="deleteTasksLoadIndex(this.id)">Delete</button>
         </div>
     {% empty %}
         <p>Нет комментариев</p>
     {% endfor %}
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Добавить комментарий</button>
+    <button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#exampleModal">Добавить комментарий</button>
 
 <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -59,7 +61,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button id="create" type="button" class="btn btn-primary" onclick="createTasksLoadIndex($('#text').val(), `{{ user }}`, `{{ image.id }}`)" >Сохранить</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <button id="create" type="button" class="btn btn-success" onclick="createTasksLoadIndex($('#text').val(), `{{ user }}`, `{{ image.id }}`)" >Сохранить</button>
                 </div>
 {% endblock %}

@@ -34,8 +34,10 @@ class ImageComment(models.Model):
     text = models.TextField(null=False, blank=False, max_length=400, verbose_name='Текст')
     image = models.ForeignKey('webapp.Image', null=False, blank=False,
                               on_delete=models.CASCADE, verbose_name='Фотография', related_name='comments')
-    author = models.CharField(null=False, blank=False, max_length=50, verbose_name='Автор')
+
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, default=1,
+                               related_name='comments', verbose_name='Автор')
 
     def __str__(self):
         return self.text[:20]

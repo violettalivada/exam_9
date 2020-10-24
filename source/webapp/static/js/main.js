@@ -28,13 +28,13 @@ function getCookie(name) {
 }
 let csrftoken = getCookie('csrftoken');
 
-function createTasksLoadIndex(text, author, image_id) {
+function createTasksLoadIndex(text, author_id, image_id) {
     $.ajax({
         url: 'http://localhost:8000/api/comments/',
         method: 'POST',
         contentType: 'application/json',
         headers: {'X-CSRFToken': csrftoken},
-        data: JSON.stringify({text: text, author: author, image: image_id}),
+        data: JSON.stringify({text: text, author: author_id, image: image_id}),
         dataType: 'json',
         success: jqueryParseData,
         error: jqueryAjaxError
